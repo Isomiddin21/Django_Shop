@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}<title>Login to our system</title>{% endblock %}
+
+{% block css %}
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text css" href="{% static 'assets/css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/templatemo-hexashop.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/owl-carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/lightbox.css' %}">
+{% endblock %}
+
+
+
+
+{% block content %}
+    Login to our system
+
+    <div class="container">
+        {% if messages %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <label for="first_name">First name</label>
+            <input class="form-control" type="text" name="first_name" id="first_name" placeholder="First name"><br>
+            <label for="last_name">Last name</label>
+            <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Last name"><br>
+            <label for="email">Email</label>
+            <input class="form-control" type="text" name="email" id="email" placeholder="Email"><br>
+            <label for="username">Username</label>
+            <input class="form-control" type="text" name="username" id="username" placeholder="Username"><br>
+            <label for="password1">Password</label>
+            <input class="form-control" type="password" name="password1" id="password1" placeholder="Enter your password"><br>
+            <label for="password2">Password confirm</label>
+            <input class="form-control" type="password" name="password2" id="password2" placeholder="Confirm password"><br>
+            <button type="submit">OK</button>
+            <br/>
+            <span class="text-secondary">Do you have an account? <a href="/accounts/login">Sign in</a></span>
+        </form>
+    </div>
+{% endblock %}
+
+
+{% block js %}
+    <!-- jQuery -->
+    <script src="{% static 'assets/js/jquery-2.1.0.min.js' %}"></script>
+    <!-- Bootstrap -->
+    <script src="{% static 'assets/js/popper.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <!-- Plugins -->
+    <script src="{% static 'assets/js/owl-carousel.js' %}"></script>
+    <script src="{% static 'assets/js/accordions.js' %}"></script>
+    <script src="{% static 'assets/js/datepicker.js' %}"></script>
+    <script src="{% static 'assets/js/scrollreveal.min.js' %}"></script>
+    <script src="{% static 'assets/js/waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.counterup.min.js' %}"></script>
+    <script src="{% static 'assets/js/imgfix.min.js' %}"></script>
+    <script src="{% static 'assets/js/slick.js' %}"></script>
+    <script src="{% static 'assets/js/lightbox.js' %}"></script>
+    <script src="{% static 'assets/js/isotope.js' %}"></script>
+    <!-- Global Init -->
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+    <script>
+        $(function () {
+            var selectedClass = "";
+            $("p").click(function () {
+                selectedClass = $(this).attr("data-rel");
+                $("#portfolio").fadeTo(50, 0.1);
+                $("#portfolio div").not("." + selectedClass).fadeOut();
+                setTimeout(function () {
+                    $("." + selectedClass).fadeIn();
+                    $("#portfolio").fadeTo(50, 1);
+                }, 500);
+            });
+        });
+    </script>
+{% endblock %}
+

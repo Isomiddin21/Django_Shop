@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load calculate_total %}
+{% block title %}Login to our system{% endblock %}
+
+{% block css %}
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/templatemo-hexashop.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/owl-carousel.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/lightbox.css' %}">
+    <!--
+{% endblock %}
+TemplateMo 571 Hexashop
+
+https://templatemo.com/tm-571-hexashop
+
+-->
+
+{% block hero %}
+
+<!-- ***** Header Area Start ***** -->
+<header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!-- ***** Logo Start ***** -->
+                    <a href="index.html" class="logo">
+                        <img src="{% static 'assets/images/logo.png' %}">
+                    </a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+                    <ul class="nav">
+                        <li class="scroll-to-section"><a href="/" class="active">Home</a></li>
+                        <li class="scroll-to-section"><a href="#men">Men's</a></li>
+                        <li class="scroll-to-section"><a href="#women">Women's</a></li>
+                        <li class="scroll-to-section"><a href="#kids">Kid's</a></li>
+                        <li class="submenu">
+                            <a href="javascript:;">Pages</a>
+                            <ul>
+                                <li><a href="/about">About Us</a></li>
+                                <li><a href="/products">Products</a></li>
+                                <li><a href="/single-product">Single Product</a></li>
+                                <li><a href="/contact">Contact Us</a></li>
+                            </ul>
+                        </li>
+                        <li class="submenu">
+                            <a href="javascript:;">Features</a>
+                            <ul>
+                                <li><a href="#">Features Page 1</a></li>
+                                <li><a href="#">Features Page 2</a></li>
+                                <li><a href="#">Features Page 3</a></li>
+                                <li><a rel="nofollow" href="https://templatemo.com/page/4" target="_blank">Template Page
+                                    4</a></li>
+                            </ul>
+                        </li>
+                        <li class="scroll-to-section"><a href="#explore">Explore</a></li>
+                        <li class="scroll-to-section"><a href="accounts/login">Login</a></li>
+                    </ul>
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- ***** Header Area End ***** -->
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row mb-5">
+            <div class="site-blocks-table">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th class="product-thumbnail">Image</th>
+                    <th class="product-thumbnail">ID</th>
+                    <th class="product-name">Product</th>
+                    <th class="product-price">Price</th>
+                    <th class="product-count">Count</th>
+                    <th class="product-total">Total</th>
+                    <th class="product-remove">Remove</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for product in shopping_cart_products %}
+                  <tr>
+                    <td class="product-id">
+                      <span>{{ product.index }}</span>
+                    </td>
+                    <td class="product-thumbnail">
+                      <img src="{{ product.img.img.url }}" alt="Image" class="img-fluid">
+                    </td>
+                    <td class="product-name">
+                      <h2 class="h5 text-black">{{ product.service.title }}</h2>
+                    </td>
+                    <td>${{ product.service.price }}</td>
+                    <td>
+                      <div class="input-group mb-3" style="max-width: 120px;">
+                        <div class="input-group-prepend">
+                          <button class="btn btn-outline-primary js-btn-minus" type="button" onclick="decrement_count({{ product.id }}, {{ product.service.price }})">&minus;</button>
+                        </div>
+                        <input id="product_count_{{ product.id }}" oninput="change_count({{ product.id }}, {{ product.service.price }})" type="text" class="form-control text-center" value="{{ product.count }}" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-primary js-btn-plus" type="button" onclick="increment_count({{ product.id }}, {{ product.service.price }})">&plus;</button>
+                        </div>
+                      </div>
+
+                    </td>
+                    <td>
+                        td>
+                        <span id="total_count_{{ product.id }}">
+                            ${% calculate_total product.count product.service.price %}
+                        </span>
+                    <td>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="shopping_cart_id" value="{{ product.id }}">
+                            <button href="#" class="btn btn-primary btn-sm">X</button>
+                        </form>
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+        </div>
+        <form action="{% url 'checkout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Checkout</button>
+        </form>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <!-- jQuery -->
+    <script src="{% static 'assets/js/jquery-2.1.0.min.js' %}"></script>
+
+    <!-- Bootstrap -->
+    <script src="{% static 'assets/js/popper.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+
+    <!-- Plugins -->
+    <script src="{% static 'assets/js/owl-carousel.js' %}"></script>
+    <script src="{% static 'assets/js/accordions.js' %}"></script>
+    <script src="{% static 'assets/js/datepicker.js' %}"></script>
+    <script src="{% static 'assets/js/scrollreveal.min.js' %}"></script>
+    <script src="{% static 'assets/js/waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.counterup.min.js' %}"></script>
+    <script src="{% static 'assets/js/imgfix.min.js' %}"></script>
+    <script src="{% static 'assets/js/slick.js' %}"></script>
+    <script src="{% static 'assets/js/lightbox.js' %}"></script>
+    <script src="{% static 'assets/js/isotope.js' %}"></script>
+
+    <!-- Global Init -->
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+
+    <script>
+
+        $(function () {
+            var selectedClass = "";
+            $("p").click(function () {
+                selectedClass = $(this).attr("data-rel");
+                $("#portfolio").fadeTo(50, 0.1);
+                $("#portfolio div").not("." + selectedClass).fadeOut();
+                setTimeout(function () {
+                    $("." + selectedClass).fadeIn();
+                    $("#portfolio").fadeTo(50, 1);
+                }, 500);
+
+            });
+        });{% static '' %}
+
+    </script>
+{% endblock %}
+
+
